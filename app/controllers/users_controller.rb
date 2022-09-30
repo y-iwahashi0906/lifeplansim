@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_user_logged_in, only: [:index, :show, :edit]
+  
   def index
   end
   
@@ -21,6 +23,23 @@ class UsersController < ApplicationController
       render :new
     end
   end
+  
+  def edit
+    
+  end
+  
+  def update
+    
+  end
+  
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    
+    flash[:success] = 'ユーザー登録を解除しました'
+    redirect_to root_url
+  end
+  
 
   private
 
