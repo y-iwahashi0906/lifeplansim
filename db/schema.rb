@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_30_114036) do
+ActiveRecord::Schema.define(version: 2022_10_01_040059) do
+
+  create_table "asset_sims", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "cash"
+    t.integer "investment_asset"
+    t.integer "income"
+    t.integer "expense"
+    t.integer "investment_ratio"
+    t.float "investment_yield"
+    t.float "inflation_ratio"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_asset_sims_on_user_id"
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -21,4 +35,5 @@ ActiveRecord::Schema.define(version: 2022_09_30_114036) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "asset_sims", "users"
 end

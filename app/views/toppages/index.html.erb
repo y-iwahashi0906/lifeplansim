@@ -1,5 +1,26 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+<div class="row">
+  <div class="col-sm-3">
+    <%= render 'form_asset_sim' %>
+  </div>
+  <div class="col-sm-9">
+    <% unless @asset_sim.new_record? %>
+      <div class="row">
+        <div class="col-sm-3">
+          <%= button_to "グラフ描画", root_path, method: :get, params: {display: true}, class: 'btn btn-primary w-20' %>
+        </div>
+        <div class="col-sm-3">
+          <%= link_to 'イベント設定', root_path, class: 'btn btn-primary w-20' %>
+        </div>
+        
+      </div>
+      <% if @graph_asset.length !=0 %>
+        <%= line_chart [ { name: "資産", data: @graph_asset}, { name: "現金", data: @graph_asset_cash}, { name: "投資資産", data: @graph_investment_asset}, { name: "年間支出", data: @graph_expense}]  %>
+      <% end %>
+    <% end %>  
+  </div>
+</div>
+  
 <% else %>
   <div class="bg-secondary p-3 p-sm-5 my-4 rounded">
     <div class="text-center text-white">

@@ -6,4 +6,5 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :age, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   has_secure_password
+  has_many :asset_sims, dependent: :destroy
 end
