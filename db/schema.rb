@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_01_040059) do
+ActiveRecord::Schema.define(version: 2022_10_01_215706) do
 
   create_table "asset_sims", charset: "utf8mb4", force: :cascade do |t|
     t.integer "cash"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 2022_10_01_040059) do
     t.index ["user_id"], name: "index_asset_sims_on_user_id"
   end
 
+  create_table "events", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "asset_sim_id", null: false
+    t.integer "event_type"
+    t.integer "event_age"
+    t.integer "event_value"
+    t.integer "event_term"
+    t.string "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["asset_sim_id"], name: "index_events_on_asset_sim_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -36,4 +48,5 @@ ActiveRecord::Schema.define(version: 2022_10_01_040059) do
   end
 
   add_foreign_key "asset_sims", "users"
+  add_foreign_key "events", "asset_sims"
 end

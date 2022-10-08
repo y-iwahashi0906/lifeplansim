@@ -4,10 +4,9 @@ class ToppagesController < ApplicationController
       @asset_sim = current_user.asset_sims.find_or_initialize_by( user_id: current_user.id)# form_with 用 #データがない場合の動きを確認する
       @pagy, @asset_sims = pagy(current_user.asset_sims.order(id: :desc))
       @graph_asset = []
-      if params[:display] 
-        unless @asset_sim.new_record?
-          create_graph_asset
-        end
+      @chkbox = {:chk_asset => true, :chk_cash => true, :chk_investment_asset => true, :chk_expense => true}
+      unless @asset_sim.new_record?
+        create_graph_asset
       end
     end
   end
@@ -30,11 +29,30 @@ class ToppagesController < ApplicationController
     
     
     for i in 0 .. (age_max - current_user.age) do
-      
-      @graph_asset << [(current_user.age + i).to_s, cash + investment_asset]
-      @graph_asset_cash << [(current_user.age + i).to_s, cash]
-      @graph_investment_asset << [(current_user.age + i).to_s, investment_asset]
-      @graph_expense << [(current_user.age + i).to_s, expense]
+      if params[:chk_asset].to_i == 1
+        @graph_asset << [(current_user.age + i).to_s, cash + investment_asset]
+        @chkbox[:chk_asset] = true
+      else
+        @chkbox[:chk_asset] = false
+      end
+      if params[:chk_cash].to_i == 1
+        @graph_asset_cash << [(current_user.age + i).to_s, cash]
+        @chkbox[:chk_cash] = true
+      else
+        @chkbox[:chk_cash] = false
+      end
+      if params[:chk_investment_asset].to_i == 1
+        @graph_investment_asset << [(current_user.age + i).to_s, investment_asset]
+        @chkbox[:chk_investment_asset] = true
+      else
+        @chkbox[:chk_investment_asset] = false
+      end
+      if params[:chk_expense].to_i == 1
+        @graph_expense << [(current_user.age + i).to_s, expense]
+        @chkbox[:chk_expense] = true
+      else
+        @chkbox[:chk_expense] = false
+      end
       
       #年間収支が黒字の場合
       if (income - expense) >= 0

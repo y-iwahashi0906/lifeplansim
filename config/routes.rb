@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   
   resources :users
   resources :asset_sims, only: [:create, :update, :destroy]
+  resources :events, only: [:new, :create, :destroy ]
 end

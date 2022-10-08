@@ -6,15 +6,29 @@
   <div class="col-sm-9">
     <% unless @asset_sim.new_record? %>
       <div class="row">
-        <div class="col-sm-3">
-          <%= button_to "グラフ描画", root_path, method: :get, params: {display: true}, class: 'btn btn-primary w-20' %>
+        <div class="col-sm-5">
+          <%= form_with url: root_path, method: :get, local: true do |f| %>
+              <div class="field">
+                <%= f.check_box :chk_asset, checked: @chkbox[:chk_asset] %>
+                <%= f.label :chk_asset, "資産" %>
+                <%= f.check_box :chk_cash, checked: @chkbox[:chk_cash]  %>
+                <%= f.label :chk_cash, "現金" %>
+                <%= f.check_box :chk_investment_asset, checked: @chkbox[:chk_investment_asset] %>
+                <%= f.label :chk_investment_asset, " 投資資産" %>
+                <%= f.check_box :chk_expense, checked: @chkbox[:chk_expense] %>
+                <%= f.label :chk_expense, "年間支出" %>
+              </div>
+              <div class="actions">
+                <%= f.submit 'グラフ',  class: 'btn btn-primary w-20' %>
+              </div>
+          <% end %>
         </div>
-        <div class="col-sm-3">
-          <%= link_to 'イベント設定', root_path, class: 'btn btn-primary w-20' %>
+        <div class="offset-sm-1 col-sm-3">
+          <%= link_to 'イベント設定', new_event_path, class: 'btn btn-primary w-20' %>
         </div>
         
       </div>
-      <% if @graph_asset.length !=0 %>
+      <% unless @asset_sim.new_record? %>
         <%= line_chart [ { name: "資産", data: @graph_asset}, { name: "現金", data: @graph_asset_cash}, { name: "投資資産", data: @graph_investment_asset}, { name: "年間支出", data: @graph_expense}]  %>
       <% end %>
     <% end %>  

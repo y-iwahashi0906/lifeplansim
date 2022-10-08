@@ -15,6 +15,7 @@ class AssetSimsController < ApplicationController
     @asset_sim = current_user.asset_sims.first
     if @asset_sim.update(asset_sim_params)
       flash[:success] = '正常に更新されました'
+      
       redirect_to root_url
     else
       flash[:danger] = '更新に失敗しました。'
