@@ -4,7 +4,18 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
-  validates :age, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
+  validates :birth, presence: true
+  
   has_secure_password
   has_many :asset_sims, dependent: :destroy
+  
+  def age
+    today = Time.zone.today
+    this_years_birthday = Time.zone.local(today.year, birth.month, birth.day)
+    age = today.year - birth.year
+    if today < this_years_birthday
+      age -= 1
+    end
+    return age.to_i
+  end
 end

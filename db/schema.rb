@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_01_215706) do
+ActiveRecord::Schema.define(version: 2022_10_10_051308) do
 
   create_table "asset_sims", charset: "utf8mb4", force: :cascade do |t|
     t.integer "cash"
@@ -28,20 +28,22 @@ ActiveRecord::Schema.define(version: 2022_10_01_215706) do
 
   create_table "events", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "asset_sim_id", null: false
-    t.integer "event_type"
-    t.integer "event_age"
-    t.integer "event_value"
-    t.integer "event_term"
+    t.string "name"
+    t.integer "age"
+    t.integer "value"
+    t.integer "term"
     t.string "remarks"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
+    t.boolean "isvalid"
     t.index ["asset_sim_id"], name: "index_events_on_asset_sim_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.integer "age"
+    t.date "birth"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

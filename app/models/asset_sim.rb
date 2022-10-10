@@ -7,4 +7,6 @@ class AssetSim < ApplicationRecord
   validates :investment_ratio, presence: true, numericality: {only_integer: true, in: 0..100 }
   validates :investment_yield, presence: true, numericality: {only_float: true, in: 0..100 }
   validates :inflation_ratio, presence: true, numericality:  {only_float: true, in: 0..100 }
+  
+  has_many :events, dependent: :destroy
 end

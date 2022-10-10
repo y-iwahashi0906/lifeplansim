@@ -16,7 +16,7 @@ class AssetSimsController < ApplicationController
     if @asset_sim.update(asset_sim_params)
       flash[:success] = '正常に更新されました'
       
-      redirect_to root_url
+      redirect_to root_url #controller: :ToppagesController,  action: :index
     else
       flash[:danger] = '更新に失敗しました。'
       redirect_to root_url #formのsubmitを更新する必要があるため再読み込み
