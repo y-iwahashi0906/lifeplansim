@@ -67,11 +67,12 @@ class ToppagesController < ApplicationController
       inc_income = 0
       inc_expense = 0
       
+      #年度のイベントの期間中の収支を計算
       @events.each do |event|
         if event.isvalid
           if event.age <= current_user.age + i && current_user.age + i < event.age + event.term
             if event.value >= 0
-              inc_income =inc_income + event.value
+              inc_income = inc_income + event.value
             else
               inc_expense =  inc_expense - event.value
             end
@@ -101,8 +102,8 @@ class ToppagesController < ApplicationController
         investment_asset = investment_asset * (1 + (@asset_sim.investment_yield / 100)) + (annual_balance) * ((100 - @asset_sim.investment_ratio).to_f / 100)
       #年間収支が赤字の場合
       else
-        #現金がある場合は現金からマイナス
-        if cash >= 0
+        #現金があり、年間支出を足してマイナスとならない場合は現金からマイナス
+        if cash + (annual_balance) >= 0
           cash = cash + (annual_balance)
           investment_asset = investment_asset * (1 + (@asset_sim.investment_yield / 100)) 
         #現金がない場合は投資資産からマイナス
