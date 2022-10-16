@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_10_051308) do
+ActiveRecord::Schema.define(version: 2022_10_16_022413) do
 
   create_table "asset_sims", charset: "utf8mb4", force: :cascade do |t|
     t.integer "cash"
@@ -36,7 +36,8 @@ ActiveRecord::Schema.define(version: 2022_10_10_051308) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
-    t.boolean "isvalid"
+    t.boolean "isvalid", default: true
+    t.integer "event_type"
     t.index ["asset_sim_id"], name: "index_events_on_asset_sim_id"
   end
 
