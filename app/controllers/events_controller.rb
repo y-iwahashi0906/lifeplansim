@@ -6,6 +6,10 @@ class EventsController < ApplicationController
     @event = Event.new
   end
 
+  def change_income
+    @event = Event.new
+  end
+
   def create
     @asset_sim = current_user.asset_sims.find_by(user_id: current_user.id)
     unless @asset_sim
@@ -47,7 +51,7 @@ class EventsController < ApplicationController
 
   # Strong Parameter
   def event_params
-    params.require(:event).permit(:name, :value, :age, :term, :description, :isvalid)
+    params.require(:event).permit(:name, :value, :age, :term, :description, :isvalid, :event_type)
   end
 
   def correct_asset_sim

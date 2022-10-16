@@ -1,34 +1,43 @@
-<div class="row">
+<div class="row border rounded">
   <div class="col-sm-8 offset-sm-2">
 
     <%= form_with(model: @event) do |f| %>
-      <%= render 'layouts/error_messages', model: f.object %>
+      <%= render "layouts/error_messages", model: f.object %>
+      <%= f.hidden_field :event_type, :value => type %>
       <%= f.hidden_field :isvalid, :value => true %>
       <div class="mb-3">
-        <%= f.label :name, 'イベント名' %>
-        <%= f.text_field :name, class: 'form-control' %>
+        <%= f.label :name, "イベント名" %>
+        <%= f.text_field :name, class: "form-control" %>
       </div>
-      
+      <% if type == Constants::EVENT_TYPE_OTHER %>
+        <div class="mb-3">
+          <%= f.label :value, "収支[万円]" %>
+          <%= f.text_field :value, class: "form-control" %>
+        </div>
+      <% end %>
+      <% if type == Constants::EVENT_TYPE_CHANGE_INCOME %>
+        <div class="mb-3">
+          <%= f.label :value, "収入[万円]" %>
+          <%= f.text_field :value, class: "form-control" %>
+        </div>
+      <% end %>
       <div class="mb-3">
-        <%= f.label :value, '収支' %>
-        <%= f.text_field :value, class: 'form-control' %>
+        <%= f.label :age, "イベント発生時の年齢" %>
+        <%= f.text_field :age, class: "form-control" %>
       </div>
-      
+      <% if type == Constants::EVENT_TYPE_OTHER %>
+        <div class="mb-3">
+          <%= f.label :term, "期間[年]" %>
+          <%= f.text_field :term, class: "form-control" %>
+        </div>
+      <% else %>
+         <%= f.hidden_field :term, :value => 0 %>
+      <% end %>
       <div class="mb-3">
-        <%= f.label :age, 'イベント発生時の年齢' %>
-        <%= f.text_field :age, class: 'form-control' %>
+        <%= f.label :description, "説明" %>
+        <%= f.text_field :description, class: "form-control" %>
       </div>
-
-      <div class="mb-3">
-        <%= f.label :term, '期間' %>
-        <%= f.text_field :term, class: 'form-control' %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.label :description, '説明' %>
-        <%= f.text_field :description, class: 'form-control' %>
-      </div>
-      <%= f.submit '設定', class: 'btn btn-primary w-100' %>
+      <%= f.submit "設定", class: "btn btn-primary w-100" %>
     <% end %>
   </div>
 </div>

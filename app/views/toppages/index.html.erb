@@ -1,7 +1,7 @@
 <% if logged_in? %>
   <div class="row">
     <div class="col-sm-3">
-      <%= render 'form_asset_sim' %>
+      <%= render "form_asset_sim" %>
     </div>
     <div class="col-sm-9">
       <% unless @asset_sim.new_record? %>
@@ -9,26 +9,22 @@
           <div class="row">
             <div>
               <ul class="list-group list-group-horizontal">
-                <li class="list-group-item" style="border: none">
-                  <%= f.check_box :chk_asset, checked: @chkbox[:chk_asset] %>
-                  <%= f.label :chk_asset, "資産" %>
-                </li>
-                <li class="list-group-item" style="border: none">
-                  <%= f.check_box :chk_cash, checked: @chkbox[:chk_cash]  %>
-                  <%= f.label :chk_cash, "現金" %>  
-                </li>
-                <li class="list-group-item" style="border: none">
-                  <%= f.check_box :chk_investment_asset, checked: @chkbox[:chk_investment_asset] %>
-                  <%= f.label :chk_investment_asset, " 投資資産" %>  
-                </li>
-                <li class="list-group-item" style="border: none">
-                  <%= f.check_box :chk_expense, checked: @chkbox[:chk_expense] %>
-                  <%= f.label :chk_expense, "年間支出" %>
-                </li>
+                <% @chkboxes.each do |key, chkbox| %>  
+                  <li class="list-group-item" style="border: none">
+                    <%= f.check_box key, checked: chkbox.ischecked %>
+                    <%= f.label key, chkbox.name %>
+                  </li>
+                <% end %> 
               </ul>
             </div>
           </div>  
-          <%= line_chart [ { name: "資産", data: @graph_asset}, { name: "現金", data: @graph_asset_cash}, { name: "投資資産", data: @graph_investment_asset}, { name: "年間支出", data: @graph_expense}]  %>      
+          <%= line_chart [
+                           { name: @chkboxes[:chk_asset].name, data: @graph[:chk_asset] },
+                           { name: @chkboxes[:chk_cash].name, data: @graph[:chk_cash] },
+                           { name: @chkboxes[:chk_investment_asset].name, data: @graph[:chk_investment_asset] },
+                           { name: @chkboxes[:chk_income].name, data: @graph[:chk_income] },
+                           { name: @chkboxes[:chk_expense].name, data: @graph[:chk_expense] },
+                         ] %>      
           <% if @events.any? %>
             <table class="table table-striped">
               <thread>
@@ -50,8 +46,8 @@
                     <td class= col-1><%= event.age %></td>
                     <td class= col-1><%= event.term %></td>
                     <td class= col-3>
-                      <%= link_to "編集", edit_event_path(event), class: 'btn btn-dark btn-sm' %>
-                      <%= link_to "削除", event, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+                      <%= link_to "編集", edit_event_path(event), class: "btn btn-dark btn-sm" %>
+                      <%= link_to "削除", event, method: :delete, data: { confirm: "You sure?" }, class: "btn btn-danger btn-sm" %>
                     </td>
                   </tr>
                 <% end %>
@@ -60,14 +56,14 @@
             <%== pagy_bootstrap_nav(@pagy) %>
           <% end %>
           <div class="row">
-            <div class="actions col-2">
+            <div class="actions col-3">
               <%= f.hidden_field :isButtonDown, :value => true %>
-              <%= f.submit 'グラフ',  class: 'btn btn-dark w-20' %>
+              <%= f.submit "シミュレーション実行", class: "btn btn-dark w-30" %>
             </div>
-            <div class= col-2>
-              <%= link_to 'イベント設定', new_event_path, class: 'btn btn-dark w-20' %>
+            <div class= col-3>
+              <%= link_to "イベント設定", new_event_path, class: "btn btn-dark w-30" %>
             </div>
-            </div>
+          </div>
         <% end %>
       <% end %>
     </div>
@@ -76,7 +72,7 @@
   <div class="bg-secondary p-3 p-sm-5 my-4 rounded">
     <div class="text-center text-white">
       <h1>Life Plan Sim</h1>
-      <%= link_to 'ユーザー登録', new_user_path, class: 'btn btn-lg btn-primary' %>
+      <%= link_to "ユーザー登録", new_user_path, class: "btn btn-lg btn-primary" %>
     </div>
   </div>
 <% end %>

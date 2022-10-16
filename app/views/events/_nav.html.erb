@@ -1,0 +1,16 @@
+<div class="col-sm-8">
+  <ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+      <a href="<%= new_event_path %>" class="nav-link 
+      <%= "active" if current_page?(new_event_path) %>">
+        イベント設定
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= events_change_income_path %>" class="nav-link 
+      <%= "active" if current_page?(events_change_income_path) %>">
+        収入変更
+      </a>
+    </li>
+  </ul>
+</div>
